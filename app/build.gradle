@@ -21,6 +21,7 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'com.auth0.android:jwtdecode:1.4.0'
     implementation 'androidx.appcompat:appcompat:1.1.0'
     //aici adaug retrofit pentru HTTP requests (nu pun versiunea cea mai noua pt ca lipsesc niste clase)
     implementation 'com.squareup.retrofit2:retrofit:2.3.0'

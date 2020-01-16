@@ -11,7 +11,7 @@ import retrofit2.http.Path;
 
 public interface RetrofitInterface {
     @POST("/users/login")
-    Call<LoginResult> executeLogin(@Body HashMap<String, String> map);
+    Call<JWTResult> executeLogin(@Body HashMap<String, String> map);
     //la req de POST ni se returneaza o metoda Call ce stocheaza un obiect LoginResult
     //metoda va avea si un Body si prin el se transmit cele 3 date (stocam intr-un hashmap)
 

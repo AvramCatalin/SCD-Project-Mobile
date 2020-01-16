@@ -29,7 +29,7 @@ public class LoginActivity extends AppCompatActivity {
     //aici o sa fie URL-ul la care se fac request-urile
     //daca il rulez din emulator folosesc 10.0.2.2 (echivalent localhost)
     //eu folosesc ngrok ca si local tunnel provider (link-ul de mai jos)
-    private static String Base_URL = "https://54760dd7.ngrok.io";
+    private static String Base_URL = "https://ac013c93.ngrok.io/";
 
     //facem un getter pentru a putea accesa url-ul si din RegisterActivity
     //daca se schimba URL-ul trebuie modificat intr-un singur loc (aici)
@@ -38,10 +38,10 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     //declaram global obiectul result care va tine datele returnate de pe server
-    private static LoginResult result;
+    private static JWTResult result;
 
     //ii facem si un getter ca sa il putem accesa din LocationActivity
-    public static LoginResult getResult() {
+    public static JWTResult getResult() {
         return result;
     }
 
@@ -158,13 +158,13 @@ public class LoginActivity extends AppCompatActivity {
             map.put("password", passwordEdit.getText().toString());
 
             //folosim interfata retrofit pentru a crea request-ul
-            Call<LoginResult> call = retrofitInterface.executeLogin(map);
+            Call<JWTResult> call = retrofitInterface.executeLogin(map);
 
             //pentru a executa request-ul folosim enqueue
             //aceasta metoda asteapta un Callback
-            call.enqueue(new Callback<LoginResult>() {
+            call.enqueue(new Callback<JWTResult>() {
                 @Override
-                public void onResponse(Call<LoginResult> call, Response<LoginResult> response) {
+                public void onResponse(Call<JWTResult> call, Response<JWTResult> response) {
                     //este apleata atunci cand serverul raspunde la request-ul nostru
                     //verificam daca utilizatorul s-a logat cu succes (200)
                     if (response.code() == 200) {
@@ -179,7 +179,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
 
                 @Override
-                public void onFailure(Call<LoginResult> call, Throwable t) {
+                public void onFailure(Call<JWTResult> call, Throwable t) {
                     //este apelata atunci cand avem request fail
                     TextViewLoginError.setText(t.getMessage());
                     TextViewLoginError.setVisibility(View.VISIBLE);

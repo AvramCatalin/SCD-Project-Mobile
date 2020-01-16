@@ -18,6 +18,9 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.auth0.android.jwt.Claim;
+import com.auth0.android.jwt.JWT;
+
 import org.w3c.dom.Text;
 
 import java.util.HashMap;
@@ -61,9 +64,17 @@ public class LocationActivity extends AppCompatActivity {
         retrofitInterface = retrofit.create(RetrofitInterface.class);
 
         //afisam datele user-ului logat
-        final LoginResult result = LoginActivity.getResult();
+        final JWTResult result = LoginActivity.getResult();
         final TextView textViewUser = findViewById(R.id.textViewUser);
-        textViewUser.setText(result.getFirstName() + " " + result.getLastName() + "\n" + result.getEmail());
+        JWT jwt = new JWT(result.getJwt());
+        Claim claim  = jwt.getClaim("firstName");
+        String firstName = claim.asString();
+        claim  = jwt.getClaim("lastName");
+        String lastName = claim.asString();
+        claim  = jwt.getClaim("email");
+        final String email = claim.asString();
+
+        textViewUser.setText(firstName + " " + lastName + "\n" + email);
 
         buttonSendOnceActive = false;
 
@@ -89,11 +100,12 @@ public class LocationActivity extends AppCompatActivity {
 
                 HashMap<String, String> map = new HashMap<>();
 
-                map.put("email", result.getEmail());
+                map.put("email", email);
                 map.put("lat", Double.toString(location.getLatitude()));
                 map.put("long", Double.toString(location.getLongitude()));
+                map.put("jwt", result.getJwt());
 
-                Call<Void> call = retrofitInterface.executeSendLocation(result.getEmail(), map);
+                Call<Void> call = retrofitInterface.executeSendLocation(email, map);
 
                 call.enqueue(new Callback<Void>() {
                     @Override
